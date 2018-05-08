@@ -3,7 +3,7 @@ namespace app\lib\exception;
 
 use think\Exception;
 /**
-* 
+* restful
 */
 class BaseException extends Exception
 {
