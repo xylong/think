@@ -32,10 +32,16 @@ class Handler extends Handle
         // 其他错误交给系统处理
         // return parent::render($e);
 
+        if ($e instanceof BaseException) {
+        	$this->code 		= $e->code;
+        	$this->errorCode 	= $e->errorCode;
+        	$this->msg 			= $e->msg;
+        }
+        
         $result = [
-        	'error_code' => $this->errorCode,
-        	'msg' => $this->msg,
-        	'request_url' => Request::url()
+        	'error_code'	=> $this->errorCode,
+        	'msg'			=> $this->msg,
+        	'request_url'	=> Request::url()
         ];
 
         return json($result, $this->code);

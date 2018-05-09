@@ -28,12 +28,11 @@ class Banner extends Controller
 		if (true !== $result) {
             exit($result);
         }
-    	$banner = BannerModel::test(1);
-        return $banner;
-  //       $banner = BannerModel::get($id, true);
-  //       if (!$banner) {
-  //       	throw new BannerMissException();
-  //       }
-		// return $banner;
+ 
+        $banner = BannerModel::get($id, true);
+        if (!$banner) {
+        	throw new BannerMissException();
+        }
+		return $banner;
 	}
 }
