@@ -10,3 +10,13 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+
+/**
+ * 检测是否是正整数
+ * @param  integer  $var
+ * @return boolean
+ */
+function isPositiveInt($var)
+{
+	return is_numeric($var) && is_int(($var + 0)) && ($var + 0) > 0;
+}
