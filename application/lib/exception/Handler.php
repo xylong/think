@@ -7,6 +7,7 @@ use think\exception\HttpException;
 use think\exception\ValidateException;
 use think\facade\Request;
 use think\facade\Log;
+use think\facade\Config;
 /**
  * 异常处理
  */
@@ -14,7 +15,7 @@ class Handler extends Handle
 {
 	public $code = 500;
 
-	public $errorCode = 10000;
+	public $errorCode = 999;
 
 	public $msg = '服务器内部错误';
 
@@ -30,15 +31,17 @@ class Handler extends Handle
             return response($e->getMessage(), $e->getStatusCode());
         }
 
-        // 其他错误交给系统处理
-        // return parent::render($e);
-
+        // 判断是否是自定义的异常
         if ($e instanceof BaseException) {
         	$this->code 		= $e->code;
         	$this->errorCode 	= $e->errorCode;
         	$this->msg 			= $e->msg;
         } else {
-        	$this->recodeErrorLog($e);
+        	// 判断是默认显示还是json
+        	if (Config::get('app_debug')) {
+        		return parent::render($e);
+        	}
+    		$this->recodeErrorLog($e);
         }
         
         $result = [
@@ -51,10 +54,16 @@ class Handler extends Handle
     }
 
     /**
-     * 记录异常日志
+     * 手动记录日志
      */
     private function recodeErrorLog(Exception $e)
-    {echo $e->getMessage();exit();
+    {
+    	Log::init([
+    		'type' => 'File',
+    		'path' => LOG_PATH,
+    		'level'=> ['error']
+    	]);
+
     	Log::record($e->getMessage(), 'error');
     }
 
