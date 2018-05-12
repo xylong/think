@@ -19,12 +19,13 @@ class Banner extends Controller
 	
 	/**
 	 * 获取banner信息
-	 * @url 	/banner/:id
+	 * @url 	/banner/:id/[:type]
 	 * @http	get
 	 * @param  integer $id id
+	 * @param  string $type 类型
 	 * @return json
 	 */
-	public function getBanner($id=0)
+	public function getBanner($id, $type='')
 	{
         $banner = BannerModel::get($id, true);
         if (!$banner) {
