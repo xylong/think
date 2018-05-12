@@ -16,9 +16,9 @@ return [
     // 日志记录方式，内置 file socket 支持扩展
     'type'        => 'test',
     // 日志保存目录
-    'path'        => __DIR__ . '/../logs/',
+    'path'        => '',
     // 日志记录级别
-    'level'       => ['error'],
+    'level'       => [],
     // 单文件日志写入
     'single'      => false,
     // 独立日志级别
