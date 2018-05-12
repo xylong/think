@@ -29,7 +29,7 @@ class BaseValidate extends Validate
 	{
 		$this->request = Request::param();
 
-		if (!$this->check($this->request)) {
+		if (!$this->batch()->check($this->request)) {
 			throw new ParameterException([
 				'msg' => $this->error
 			]);
