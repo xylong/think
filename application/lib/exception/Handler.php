@@ -6,6 +6,7 @@ use think\exception\Handle;
 use think\exception\HttpException;
 use think\exception\ValidateException;
 use think\facade\Request;
+use think\facade\Log;
 /**
  * 异常处理
  */
@@ -13,7 +14,7 @@ class Handler extends Handle
 {
 	public $code = 500;
 
-	public $errorCode = 999;
+	public $errorCode = 10000;
 
 	public $msg = '服务器内部错误';
 
@@ -36,6 +37,8 @@ class Handler extends Handle
         	$this->code 		= $e->code;
         	$this->errorCode 	= $e->errorCode;
         	$this->msg 			= $e->msg;
+        } else {
+        	$this->recodeErrorLog($e);
         }
         
         $result = [
@@ -45,6 +48,14 @@ class Handler extends Handle
         ];
 
         return json($result, $this->code);
+    }
+
+    /**
+     * 记录异常日志
+     */
+    private function recodeErrorLog(Exception $e)
+    {echo $e->getMessage();exit();
+    	Log::record($e->getMessage(), 'error');
     }
 
 }

@@ -19,7 +19,7 @@ class Banner extends Controller
 	 * @param  integer $id id
 	 * @return json
 	 */
-	public function getBanner($id)
+	public function getBanner($id=0)
 	{
 		$result = $this->validate([
 			'id' => $id
@@ -31,7 +31,9 @@ class Banner extends Controller
  
         $banner = BannerModel::get($id, true);
         if (!$banner) {
-        	throw new BannerMissException();
+        	// throw new BannerMissException();
+        	throw new \Exception("aaaa", 1);
+        	
         }
 		return $banner;
 	}

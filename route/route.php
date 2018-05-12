@@ -15,4 +15,4 @@ Route::get('think', function () {
 
 Route::get('hello/:name', 'index/hello');
 
-Route::get('banner/:id', 'api/banner/getBanner');
+Route::get('banner/[:id]', 'api/banner/getBanner');
