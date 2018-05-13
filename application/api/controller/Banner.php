@@ -2,15 +2,13 @@
 namespace app\api\controller;
 
 use think\Controller;
-use think\Validate;
-use think\facade\Request;
 use app\common\model\Banner as BannerModel;
 use app\api\validate\Banner as BannerValidate;
 use app\lib\exception\BannerMissException;
 /**
 * Banner
 */
-class Banner extends Controller
+class Banner extends Base
 {
 	protected function initialize()
     {

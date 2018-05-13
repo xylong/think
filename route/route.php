@@ -16,3 +16,5 @@ Route::get('think', function () {
 Route::get('hello/:name', 'index/hello');
 
 Route::get('banner/:id/[:type]', 'api/banner/getBanner');
+
+Route::get('product/:id', 'api/product/getProduct');
