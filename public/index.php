@@ -19,6 +19,13 @@ define('LOG_PATH', __DIR__ . '/../logs/');
 require __DIR__ . '/../thinkphp/base.php';
 
 // 支持事先使用静态方法设置Request对象和Config对象
+\think\facade\Log::init([
+	'type' => 'File',
+	'path' => LOG_PATH,
+	'level'=> ['sql']
+]);
 
 // 执行应用并响应
 Container::get('app')->run()->send();
+
+
