@@ -13,41 +13,43 @@ use think\facade\Config;
  */
 class Handler extends Handle
 {
-	public $code = 500;
+    public $code = 500;
 
-	public $errorCode = 999;
+    public $errorCode = 999;
 
-	public $msg = '服务器内部错误';
+    public $msg = '服务器内部错误';
 
-	public function render(Exception $e)
+    public function render(Exception $e)
     {
-        // 参数验证错误
-        if ($e instanceof ValidateException) {
-            return json($e->getError(), 422);
-        }
+        switch (true) {
+            // 请求异常
+            case $e instanceof HttpException:
+                $this->code = $e->getStatusCode();
+                $this->errorCode = 400;
+                $this->msg = $e->getMessage();
+                break;
 
-        // 请求异常
-        if ($e instanceof HttpException && request()->isAjax()) {
-            return response($e->getMessage(), $e->getStatusCode());
-        }
-
-        // 判断是否是自定义的异常
-        if ($e instanceof BaseException) {
-        	$this->code 		= $e->code;
-        	$this->errorCode 	= $e->errorCode;
-        	$this->msg 			= $e->msg;
-        } else {
-        	// 判断是默认显示还是json
-        	if (Config::get('app_debug')) {
-        		return parent::render($e);
-        	}
-    		$this->recodeErrorLog($e);
+            // 自定义异常
+            case $e instanceof BaseException:
+                $this->code         = $e->code;
+                $this->errorCode    = $e->errorCode;
+                $this->msg          = $e->msg;
+                break;
+            
+            // 系统异常
+            default:
+                // 判断异常是展示还是记录
+                if (Config::get('app_debug')) {
+                    return parent::render($e);
+                }
+                $this->recodeErrorLog($e);
+                break;
         }
         
         $result = [
-        	'error_code'	=> $this->errorCode,
-        	'msg'			=> $this->msg,
-        	'request_url'	=> Request::url()
+            'error_code'    => $this->errorCode,
+            'msg'           => $this->msg,
+            'request_url'   => Request::url()
         ];
 
         return json($result, $this->code);
@@ -58,13 +60,13 @@ class Handler extends Handle
      */
     private function recodeErrorLog(Exception $e)
     {
-    	Log::init([
-    		'type' => 'File',
-    		'path' => LOG_PATH,
-    		'level'=> ['error']
-    	]);
+        Log::init([
+            'type' => 'File',
+            'path' => LOG_PATH,
+            'level'=> ['error']
+        ]);
 
-    	Log::record($e->getMessage(), 'error');
+        Log::record($e->getMessage(), 'error');
     }
 
 }
