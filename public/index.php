@@ -22,7 +22,9 @@ require __DIR__ . '/../thinkphp/base.php';
 \think\facade\Log::init([
 	'type' => 'File',
 	'path' => LOG_PATH,
-	'level'=> ['sql']
+	'level'=> ['sql'],
+	'apart_level' => ['sql'],
+	'max_files' => 10
 ]);
 
 // 执行应用并响应
