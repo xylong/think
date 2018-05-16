@@ -3,16 +3,16 @@ namespace app\common\model;
 
 use think\Model;
 
-class Banner extends Model
+class BannerItem extends Model
 {
 	protected static function init()
     {
         //TODO:初始化内容
     }
 
-    public function items()
+    public function img()
     {
-    	return $this->hasMany('BannerItem', 'banner_id', 'id');
+    	return $this->belongsTo('Image', 'img_id', 'id');
     }
 
 }
