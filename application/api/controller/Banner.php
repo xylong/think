@@ -25,7 +25,7 @@ class Banner extends Base
 	 */
 	public function getBanner($id, $type='')
 	{
-        $banner = BannerModel::with(['items', 'items.img'])->find($id);
+        $banner = BannerModel::getBannerById($id);
         if (!$banner) {
         	throw new BannerMissException();
         }
