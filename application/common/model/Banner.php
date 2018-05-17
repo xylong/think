@@ -3,6 +3,7 @@ namespace app\common\model;
 
 use think\Model;
 
+
 class Banner extends Model
 {
 	protected $hidden = ['update_time', 'delete_time'];
