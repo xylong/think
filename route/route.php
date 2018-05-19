@@ -15,6 +15,8 @@ Route::get('think', function () {
 
 Route::get('hello/:name', 'index/hello');
 
-Route::get('banner/:id/[:type]', 'api/banner/getBanner');
+Route::get('api/:version/banner/:id/[:type]', 'api/:version.Banner/getBanner');
+
+Route::get('api/:version/theme', 'api/:version.Theme/getSimpleList');
 
 Route::get('product/:id', 'api/product/getProduct');

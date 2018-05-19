@@ -1,7 +1,6 @@
 <?php
-namespace app\api\controller;
+namespace app\api\controller\v1;
 
-use think\Controller;
 use app\common\model\Banner as BannerModel;
 use app\api\validate\Banner as BannerValidate;
 use app\lib\exception\BannerMissException;
@@ -10,11 +9,6 @@ use app\lib\exception\BannerMissException;
 */
 class Banner extends Base
 {
-	protected function initialize()
-    {
-        (new BannerValidate)->_check();
-    }
-	
 	/**
 	 * 获取banner信息
 	 * @url 	/banner/:id/[:type]
@@ -25,6 +19,8 @@ class Banner extends Base
 	 */
 	public function getBanner($id, $type='')
 	{
+		(new BannerValidate)->_check();
+		
         $banner = BannerModel::getBannerById($id);
         if (!$banner) {
         	throw new BannerMissException();

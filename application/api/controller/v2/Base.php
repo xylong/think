@@ -1,7 +1,6 @@
 <?php
-namespace app\api\controller;
+namespace app\api\controller\v2;
 
-use think\Controller;
 use app\common\controller\Common;
 
 
