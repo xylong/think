@@ -32,3 +32,6 @@ Route::get('api/:version/category_product/:category_id', 'api/:version.Product/g
 
 // 获取分类
 Route::get('api/:version/category/all', 'api/:version.Category/getAllCategories');
+
+// 获取token
+Route::post('api/:version/token/user', 'api/:version.Token/getToken');
