@@ -25,6 +25,10 @@ Route::get('api/:version/theme', 'api/:version.Theme/getSimpleList');
 Route::get('api/:version/theme/:id', 'api/:version.Theme/getComplexOne');
 
 // 获取最新商品
-Route::get('api/:version/product/[:count]', 'api/:version.Product/getRecent');
+Route::get('api/:version/new_product/[:count]', 'api/:version.Product/getRecent');
 
+// 获取分类商品
+Route::get('api/:version/category_product/:category_id', 'api/:version.Product/getAllInCategory');
+
+// 获取分类
 Route::get('api/:version/category/all', 'api/:version.Category/getAllCategories');
