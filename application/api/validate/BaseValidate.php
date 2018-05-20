@@ -33,7 +33,7 @@ class BaseValidate extends Validate
 			throw new ParameterException([
 				'msg' => $this->error
 			]);
-			die();
+			exit;
 		} else {
 			return true;
 		}
