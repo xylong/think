@@ -1,8 +1,6 @@
 <?php
 namespace app\common\model;
 
-
-
 class Banner extends BaseModel
 {
 	protected $hidden = ['update_time', 'delete_time'];

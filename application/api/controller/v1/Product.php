@@ -1,8 +1,6 @@
 <?php
 namespace app\api\controller\v1;
 
-use think\Controller;
-use app\common\controller\Common;
 use app\common\model\Product as ProductModel;
 use app\api\validate\Product as ProductValidate;
 use app\lib\exception\ProductMissException;
