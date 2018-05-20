@@ -19,8 +19,7 @@ class Theme extends Base
 
         $res = ThemeModel::with(['topicImg', 'headImg'])->select($ids);
 
-        // debug 直接判断!$res判断不了(空数组或对象都返回true)
-        if (!count($res)) {
+        if ($res->isEmpty()) {
             throw new ThemeException;
         }
 
