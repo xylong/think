@@ -15,10 +15,14 @@ Route::get('think', function () {
 
 Route::get('hello/:name', 'index/hello');
 
+// 获取banner
 Route::get('api/:version/banner/:id/[:type]', 'api/:version.Banner/getBanner');
 
+// 获取主题列表
 Route::get('api/:version/theme', 'api/:version.Theme/getSimpleList');
 
+// 获取完整一个主题
 Route::get('api/:version/theme/:id', 'api/:version.Theme/getComplexOne');
 
-Route::get('product/:id', 'api/product/getProduct');
+// 获取最新商品
+Route::get('api/:version/product/[:count]', 'api/:version.Product/getRecent');
