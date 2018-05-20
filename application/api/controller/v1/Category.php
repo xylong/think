@@ -15,7 +15,7 @@ class Category extends Base
         $categories = CategoryModel::all([], 'img');
 
         if ($categories->isEmpty()) {
-            throw new Exception("Error Processing Request", 1);
+            throw new CategoryException;
         }
 
         return $categories;

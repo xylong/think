@@ -13,7 +13,7 @@ class Product extends Base
 {
     public function getRecent($count=15)
     {
-        (new ProductValidate)->_check();
+        (new ProductValidate('recent'))->_check();
 
         $products = ProductModel::getMostRecent($count);
 
@@ -21,6 +21,27 @@ class Product extends Base
             throw new ProductException;
         }
 
+        $products = $products->hidden(['summary']);
+
         return $products;
+    }
+
+    public function getAllInCategory($category_id)
+    {
+    	(new ProductValidate('category'))->_check();
+    	
+    	$products = ProductModel::getProductsByCategoryId($category_id);
+
+    	if ($products->isEmpty()) {
+    		throw new ProductException([
+    			'code' => 404,
+    			'errorCode' => 20000,
+    			'msg' => '指定类目商品不存在'
+    		]);
+    	}
+
+    	$products = $products->hidden(['summary']);
+
+    	return $products;
     }
 }
