@@ -30,7 +30,7 @@ class Theme extends Base
     /**
      * @url /theme/:id
      * @param  integer $id 主题🆔
-     * @return [type]     [description]
+     * @return object
      */
     public function getComplexOne($id)
     {
