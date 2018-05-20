@@ -51,4 +51,9 @@ class BaseValidate extends Validate
 	{
 		return isPositiveInt($var);
 	}
+
+	protected function isNotEmpty($value, $rule, $data='', $field='')
+	{
+		return !empty($value);
+	}
 }
