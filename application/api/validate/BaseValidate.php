@@ -24,12 +24,15 @@ class BaseValidate extends Validate
         'id.checkId'   => 'id必须是正整数',
     ];
 
+    // 场景
+    protected $scene_name = '';
+
     // 验证
 	public function _check()
 	{
 		$this->request = Request::param();
 
-		if (!$this->batch()->check($this->request)) {
+		if (!$this->scene($this->scene_name)->batch()->check($this->request)) {
 			throw new ParameterException([
 				'msg' => $this->error
 			]);
