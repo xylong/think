@@ -42,3 +42,21 @@ function curl_get($url, &$httpCode=0)
 
 	return $file_contents;
 }
+
+/**
+ * 生成随机字符串
+ * @param  integer $length 指定长度
+ * @return string
+ */
+function getRandChar($length=32)
+{
+	$str = '';
+	$strPol = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	$max = strlen($strPol) - 1;
+
+	for ($i=0; $i < $length; $i++) { 
+		$str .= $strPol[rand(0, $max)];
+	}
+
+	return $str;
+}

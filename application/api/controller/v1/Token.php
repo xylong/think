@@ -13,8 +13,10 @@ class Token extends Controller
     {
         (new TokenGet)->_check();
 
-        $ut = new UserToken;
-        $token = $ut->get($code);
-        return $token;
+        $ut = new UserToken($code);
+        $token = $ut->get();
+        return [
+        	'token' => $token
+        ];
     }
 }
