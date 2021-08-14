@@ -1,7 +1,6 @@
 package factory
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -24,9 +23,6 @@ func (d *Demo) End() {
 	d.EndTime = time.Now()
 }
 
-func (d *Demo) TakeUpTime() {
-	fmt.Println(d.EndTime.Sub(d.StartTime))
+func (d *Demo) TakeUpTime() time.Duration {
+	return d.EndTime.Sub(d.StartTime)
 }
-
-func (d *Demo) Run() {}
-func (d *Demo) Go()  {}
