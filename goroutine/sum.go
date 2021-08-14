@@ -9,9 +9,10 @@ import (
 var (
 	min   = 1
 	max   = 100000000
-	group = 2
+	group = 10
 )
 
+// Sum 求和计算
 type Sum struct {
 	*factory.Demo
 	c chan int
@@ -36,6 +37,7 @@ func (s *Sum) sum2(min, max int) {
 	s.c <- r
 }
 
+// Run 单线程求和
 func (s *Sum) Run() {
 	s.Start()
 	result := s.sum1(min, max)
@@ -44,6 +46,7 @@ func (s *Sum) Run() {
 	fmt.Println(result)
 }
 
+// Go 按照group分批计算从min到max的和
 func (s *Sum) Go() {
 	s.Start()
 	s.c = make(chan int, group)
@@ -59,16 +62,17 @@ func (s *Sum) Go() {
 		}(i)
 	}
 
+	// 关闭channel防止range读取死锁
 	go func() {
 		defer close(s.c)
 		wg.Wait()
 	}()
 
+	// 阻塞获取
 	for v := range s.c {
 		result = result + v
 	}
 
 	s.End()
-
 	fmt.Println(result)
 }
