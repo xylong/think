@@ -1,15 +1,8 @@
 package goroutine
 
 import (
-	"fmt"
 	"sync"
 	"think/factory"
-)
-
-var (
-	min   = 1
-	max   = 100000000
-	group = 10
 )
 
 // Sum 求和计算
@@ -38,26 +31,26 @@ func (s *Sum) sum2(min, max int) {
 }
 
 // Run 单线程求和
-func (s *Sum) Run() {
+func (s *Sum) Run(min, max int) int {
 	s.Start()
 	result := s.sum1(min, max)
 	s.End()
 
-	fmt.Println(result)
+	return result
 }
 
 // Go 按照group分批计算从min到max的和
-func (s *Sum) Go() {
+func (s *Sum) Go(min, max, routineNum int) int {
 	s.Start()
-	s.c = make(chan int, group)
+	s.c = make(chan int, routineNum)
 	wg := sync.WaitGroup{}
 
 	result := 0
-	wg.Add(group)
-	for i := 0; i < group; i++ {
+	wg.Add(routineNum)
+	for i := 0; i < routineNum; i++ {
 		go func(i int) {
 			defer wg.Done()
-			n := max / group
+			n := max / routineNum
 			s.sum2(n*i, n*i+n)
 		}(i)
 	}
@@ -74,5 +67,5 @@ func (s *Sum) Go() {
 	}
 
 	s.End()
-	fmt.Println(result)
+	return result
 }
