@@ -7,22 +7,22 @@ import (
 // Demo 演示
 type Demo struct {
 	// 开始时间
-	StartTime time.Time
+	start time.Time
 
 	// 结束时间
-	EndTime time.Time
+	end time.Time
 }
 
 // Start 设置开始时间
 func (d *Demo) Start() {
-	d.StartTime = time.Now()
+	d.start = time.Now()
 }
 
 // End 设置结束时间
 func (d *Demo) End() {
-	d.EndTime = time.Now()
+	d.end = time.Now()
 }
 
 func (d *Demo) TakeUpTime() time.Duration {
-	return d.EndTime.Sub(d.StartTime)
+	return d.end.Sub(d.start)
 }

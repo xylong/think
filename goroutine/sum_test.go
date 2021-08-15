@@ -12,14 +12,12 @@ var (
 	max = 100000000
 	// 协程数
 	routineNum = 10
-	// 求和结果和
-	result = 5000000500000000
 )
 
 func TestSum_Run(t *testing.T) {
 	Convey("单线程求和", t, func() {
 		sum := NewSum()
-		ShouldEqual(sum.Run(min, max), result)
+		ShouldEqual(sum.Run(min, max), 5000000500000000)
 		t.Log(sum.TakeUpTime())
 	})
 }
@@ -27,7 +25,7 @@ func TestSum_Run(t *testing.T) {
 func TestSum_Go(t *testing.T) {
 	Convey("多协程求和", t, func() {
 		sum := NewSum()
-		ShouldEqual(sum.Go(min, max, routineNum), result)
+		ShouldEqual(sum.Go(min, max, routineNum), 5000000500000000)
 		t.Log(sum.TakeUpTime())
 	})
 }
