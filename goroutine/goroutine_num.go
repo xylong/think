@@ -51,16 +51,20 @@ func (g *goroutine) Cycle(max int) {
 	pool := make(chan struct{}, max)
 	g.setPool(pool, max)
 
+	// 周期性批量设置任务
 	wg.Add(max)
 	go func() {
 		for {
+			// 等待一个批次的任务完成
 			wg.Wait()
-			fmt.Printf("%d个任务\n", max)
+			fmt.Printf("%d个任务完成\n", max)
+			// 分发下一批任务
 			g.setPool(pool, max)
 			wg.Add(max)
 		}
 	}()
 
+	// 从pool中取出一个，则执行任务
 	for {
 		randNum := rand.Intn(100)
 		<-pool

@@ -4,10 +4,12 @@ import "fmt"
 
 func main() {
 	defer func() {
-		if err := recover(); err != nil {
-			fmt.Println(err)
-		}
+		defer fmt.Println(1)
+		defer fmt.Println(2)
+		defer fmt.Println(3)
+
+		panic("b")
 	}()
-	err := fmt.Errorf("aaa")
-	panic(err)
+
+	panic("a")
 }
