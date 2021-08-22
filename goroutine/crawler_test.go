@@ -11,8 +11,8 @@ var (
 )
 
 func TestCrawler_Get(t *testing.T) {
-	Convey("网页爬取", t, func() {
+	Convey("简单网页爬取", t, func() {
 		c := newCrawler(url)
-		ShouldBeNil(c.Get(page))
+		c.Get(page)
 	})
 }

@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"sync"
+	"time"
 )
 
 // crawler 爬虫
@@ -17,24 +18,32 @@ func newCrawler(url string) *crawler {
 }
 
 // Get 爬取网页内容
-func (c *crawler) Get(page int) error {
-	errChan := make(chan error)
-	contentChan := make(chan map[int][]byte)
+func (c *crawler) Get(page int) {
 	wg := sync.WaitGroup{}
+	// 任务完成通知
+	done := make(chan struct{})
+	// 内容
+	contentChan := make(chan map[int][]byte, page)
 
+	// 协程爬取
 	for i := 1; i <= page; i++ {
 		wg.Add(1)
 		go func(index int) {
-			defer wg.Done()
+			defer func() {
+				if err := recover(); err != nil {
+					fmt.Println(err)
+				}
+				wg.Done()
+			}()
 			url := fmt.Sprintf(c.url, index)
 			resp, err := http.Get(url)
 			if err != nil {
-				errChan <- err
+				panic(err)
 			}
 
 			bytes, err := ioutil.ReadAll(resp.Body)
 			if err != nil {
-				errChan <- err
+				panic(err)
 			}
 			contentChan <- map[int][]byte{index: bytes}
 		}(i)
@@ -43,17 +52,24 @@ func (c *crawler) Get(page int) error {
 	// 在协程中关闭channel，防止主线程一直运行
 	go func() {
 		defer close(contentChan)
-		defer close(errChan)
 		wg.Wait()
+		done <- struct{}{}
 	}()
 
-	for item := range contentChan {
-		for i, v := range item {
-			if err := ioutil.WriteFile(fmt.Sprintf("%d.html", i), v, 0644); err != nil {
-				errChan <- err
+	// 写入文件
+writeLoop:
+	for {
+		select {
+		case content := <-contentChan:
+			for index, item := range content {
+				if err := ioutil.WriteFile(fmt.Sprintf("%d.html", index), item, 0644); err != nil {
+					fmt.Println(err.Error())
+				}
 			}
+		case <-time.After(time.Second * 2):
+			break writeLoop
+		case <-done:
+			break writeLoop
 		}
 	}
-
-	return <-errChan
 }
