@@ -16,7 +16,7 @@ func newGoroutine() *goroutine {
 
 // job 模拟耗时任务
 func (g *goroutine) job(index int) {
-	time.Sleep(time.Millisecond * 500)
+	time.Sleep(time.Second * 3)
 	fmt.Printf("%d 执行完毕\n", index)
 }
 
@@ -47,20 +47,35 @@ func (g *goroutine) SimpleLimit(num, max int) {
 
 // Cycle 周期执行
 func (g *goroutine) Cycle(max int) {
+	wg := sync.WaitGroup{}
 	pool := make(chan struct{}, max)
+	g.setPool(pool, max)
 
+	wg.Add(max)
 	go func() {
 		for {
-			for i := 0; i < max; i++ {
-				pool <- struct{}{}
-			}
-			time.Sleep(time.Second * 3)
+			wg.Wait()
+			fmt.Printf("%d个任务\n", max)
+			g.setPool(pool, max)
+			wg.Add(max)
 		}
 	}()
 
 	for {
 		randNum := rand.Intn(100)
 		<-pool
-		go g.job(randNum)
+		go func() {
+			defer wg.Done()
+			g.job(randNum)
+		}()
+	}
+}
+
+// setPool 设置协程
+// pool 协程池，缓冲channel
+// n 协程数量
+func (g *goroutine) setPool(pool chan<- struct{}, n int) {
+	for i := 0; i < n; i++ {
+		pool <- struct{}{}
 	}
 }
