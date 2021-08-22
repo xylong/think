@@ -2,6 +2,7 @@ package goroutine
 
 import (
 	"fmt"
+	"math/rand"
 	"sync"
 	"time"
 )
@@ -20,11 +21,14 @@ func (g *goroutine) job(index int) {
 }
 
 // SimpleLimit 简单限制协程数量
-func (g *goroutine) SimpleLimit(max int) {
+// num 任务数
+// max 协程数
+func (g *goroutine) SimpleLimit(num, max int) {
 	wg := sync.WaitGroup{}
 	pool := make(chan struct{}, max)
 
-	for i := 0; i < 100; i++ {
+	// 100个任务，保证最多只有max个goroutine执行
+	for i := 0; i < num; i++ {
 		// 到达虽大长度阻塞
 		pool <- struct{}{}
 
@@ -39,4 +43,24 @@ func (g *goroutine) SimpleLimit(max int) {
 	}
 
 	wg.Wait()
+}
+
+// Cycle 周期执行
+func (g *goroutine) Cycle(max int) {
+	pool := make(chan struct{}, max)
+
+	go func() {
+		for {
+			for i := 0; i < max; i++ {
+				pool <- struct{}{}
+			}
+			time.Sleep(time.Second * 3)
+		}
+	}()
+
+	for {
+		randNum := rand.Intn(100)
+		<-pool
+		go g.job(randNum)
+	}
 }
