@@ -17,7 +17,7 @@ var (
 func TestSum_Run(t *testing.T) {
 	Convey("单线程求和", t, func() {
 		sum := NewSum()
-		ShouldEqual(sum.Run(min, max), 5000000500000000)
+		So(sum.Run(min, max), ShouldEqual, 5000000050000000)
 		t.Log(sum.TakeUpTime())
 	})
 }
@@ -25,7 +25,7 @@ func TestSum_Run(t *testing.T) {
 func TestSum_Go(t *testing.T) {
 	Convey("多协程求和", t, func() {
 		sum := NewSum()
-		ShouldEqual(sum.Go(min, max, routineNum), 5000000500000000)
+		So(sum.Go(min, max, routineNum), ShouldEqual, 5000000050000000)
 		t.Log(sum.TakeUpTime())
 	})
 }

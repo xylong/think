@@ -20,14 +20,14 @@ func (s String) Each(f func(item string)) {
 
 // Reverse 反转字符串
 func (s String) Reverse() string {
-	str := []rune(s)
-	max := len(str) - 1
+	runes := []rune(s)
+	max := len(runes) - 1
 
-	for i, j := 0, max; i < j; i, j = i+1, j-1 {
-		str[i], str[j] = str[j], str[i]
+	for a, b := 0, max; a < b; a, b = a+1, b-1 {
+		runes[a], runes[b] = runes[b], runes[a]
 	}
 
-	return string(str)
+	return string(runes)
 }
 
 // From 字符串转自定义字符串

@@ -8,8 +8,8 @@ import (
 
 func TestString_Length(t *testing.T) {
 	Convey("字符串长度", t, func() {
-		ShouldEqual(From("").Length(), 0)
-		ShouldEqual(FromInt(123).Length(), 3)
+		So(From("").Length(), ShouldEqual, 0)
+		So(FromInt(123).Length(), ShouldEqual, 3)
 	})
 }
 
@@ -23,6 +23,7 @@ func TestString_Each(t *testing.T) {
 
 func TestString_Reverse(t *testing.T) {
 	Convey("反转字符串", t, func() {
-		ShouldEqual(From("你爱我 ok 123").Reverse(), "321 ok 我爱你")
+		So(From("我爱你 ok 123").Reverse(), ShouldEqual, "321 ko 你爱我")
+		So(From("一2三4五6七8⑨").Reverse(), ShouldEqual, "⑨8七6五4三2一")
 	})
 }
