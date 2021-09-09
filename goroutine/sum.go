@@ -46,12 +46,13 @@ func (s *Sum) Go(min, max, routineNum int) int {
 	wg := sync.WaitGroup{}
 
 	result := 0
+	n := max / routineNum
+
 	wg.Add(routineNum)
 	for i := 0; i < routineNum; i++ {
 		go func(i int) {
 			defer wg.Done()
-			n := max / routineNum
-			s.sum2(n*i, n*i+n)
+			s.sum2(n*i+1, n*i+n)
 		}(i)
 	}
 
