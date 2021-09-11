@@ -27,3 +27,24 @@ func TestString_Reverse(t *testing.T) {
 		So(From("一2三4五6七8⑨").Reverse(), ShouldEqual, "⑨8七6五4三2一")
 	})
 }
+
+func TestString_Reverse1(t *testing.T) {
+	tests := []struct {
+		name string
+		s    String
+		want string
+	}{
+		{"中文", "我爱你", "你爱我"},
+		{"英文", "i love you", "uoy evol i"},
+		{"数字", "123456789", "987654321"},
+		{"特殊符号", "!@#$%^&*", "*&^%$#@!"},
+		{"混用", "我!@#$%^&*you38", "83uoy*&^%$#@!我"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.s.Reverse(); got != tt.want {
+				t.Errorf("Reverse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

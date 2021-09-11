@@ -19,7 +19,7 @@ func newReader() *reader {
 }
 
 func (r *reader) Read() {
-	file, err := os.OpenFile("./README.md", os.O_RDONLY, 666)
+	file, err := os.OpenFile("./README.md", os.O_RDONLY, 0666)
 	if err != nil {
 		log.Fatalln(err)
 	}

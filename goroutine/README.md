@@ -6,7 +6,9 @@
     - 限制协程数量基本方式
     - 分批、周期性执行
 - produce_consume(生产消费模式)
-    - ```mermaid
+
+
+    ```mermaid
       graph LR
       A[生产者] -->B(channel)
           B --> C[消费者]
