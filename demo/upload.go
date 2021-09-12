@@ -61,6 +61,7 @@ func (su *SingleUpload) open(fileName string) (err error) {
 }
 
 // 读取文件
+// true 显示上传进度
 func (su *SingleUpload) readFile(flag bool) []byte {
 	var (
 		err   error
