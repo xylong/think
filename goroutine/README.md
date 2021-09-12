@@ -8,8 +8,8 @@
 - produce_consume(生产消费模式)
 
 
-    ```mermaid
-      graph LR
-      A[生产者] -->B(channel)
-          B --> C[消费者]
-      ```
+```mermaid
+    graph LR
+    A[生产者] -->B(channel)
+        B --> C[消费者]
+```      
