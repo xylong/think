@@ -1,9 +1,8 @@
 package main
 
-import "fmt"
+import "think/demo"
 
 func main() {
-	defer fmt.Println(1)
-	defer fmt.Println(2)
-	defer fmt.Println(3)
+	upload := demo.NewSingleUpload()
+	upload.Uploading("public/婚礼.mp4")
 }
