@@ -2,26 +2,22 @@ package goroutine
 
 import (
 	"sync"
-	"think/factory"
 )
 
 // ArrayCrossMerge 交叉合并数组
 type ArrayCrossMerge struct {
-	*factory.Demo
 }
 
 func NewArrayCrossMerge() *ArrayCrossMerge {
-	return &ArrayCrossMerge{Demo: &factory.Demo{}}
+	return &ArrayCrossMerge{}
 }
 
 func (acm *ArrayCrossMerge) Run(arr []string, brr []int) []interface{} {
-	acm.Start()
 	crr := make([]interface{}, 0)
 	for index, value := range arr {
 		crr = append(crr, value)
 		crr = append(crr, brr[index])
 	}
-	acm.End()
 
 	return crr
 }
