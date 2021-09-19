@@ -2,7 +2,7 @@ package UserModel
 
 // User 用户
 type User struct {
-	ID   int    `json:"id"`
+	ID   int    `json:"id" form:"id"`
 	Name string `json:"name" form:"name" binding:"min=2"`
 }
 
