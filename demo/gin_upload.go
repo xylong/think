@@ -3,9 +3,11 @@ package demo
 import (
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -39,6 +41,8 @@ func (u *upload) Run() {
 		}
 
 		block := header.Size / 5
+		fileSuffix := u.getSuffix(header.Filename)
+		filePrefix := u.getPrefix(header.Filename, fileSuffix)
 
 		index := 0
 		for {
@@ -51,11 +55,27 @@ func (u *upload) Run() {
 				break
 			}
 
-			u.saveBlock(fmt.Sprintf("%s_%d%s", header.Filename, index, path.Ext(header.Filename)), buf)
+			u.saveBlock(fmt.Sprintf("%s_%d%s", filePrefix, index, fileSuffix), buf)
 			index++
 		}
 
 		ctx.JSON(http.StatusOK, gin.H{"message": "ok"})
+	})
+
+	r.GET("file", func(c *gin.Context) {
+		c.Writer.Header().Set("Transfer-Encoding", "chunked")
+		c.Writer.Header().Set("Content-type", "image/png")
+
+		fileName := c.Query("name")
+		fileSuffix := u.getSuffix(fileName)
+		filePrefix := u.getPrefix(fileName, fileSuffix)
+
+		for i := 0; i <= 5; i++ {
+			f, _ := os.Open(fmt.Sprintf("../storage/%s_%d%s", filePrefix, i, fileSuffix))
+			b, _ := ioutil.ReadAll(f)
+			c.Writer.Write(b)
+			c.Writer.(http.Flusher).Flush()
+		}
 	})
 
 	r.Run()
@@ -63,10 +83,18 @@ func (u *upload) Run() {
 
 // 分片存储
 func (u *upload) saveBlock(name string, buf []byte) {
-	save, err := os.OpenFile("../storage/"+name, os.O_CREATE|os.O_RDWR, 0600)
+	file, err := os.OpenFile("../storage/"+name, os.O_CREATE|os.O_RDWR, 0600)
 	if err != nil {
 		panic(err)
 	}
-	defer save.Close()
-	save.Write(buf)
+	defer file.Close()
+	file.Write(buf)
+}
+
+func (u *upload) getPrefix(name, suffix string) string {
+	return strings.TrimSuffix(path.Base(name), suffix)
+}
+
+func (u *upload) getSuffix(name string) string {
+	return path.Ext(name)
 }
