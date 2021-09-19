@@ -22,6 +22,7 @@ func WithName(name string) Attr {
 }
 
 // Apply 应用属性
+// 初始化实力时调用
 func (a Attrs) Apply(u *User) {
 	for _, f := range a {
 		f(u)

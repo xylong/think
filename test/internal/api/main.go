@@ -11,7 +11,7 @@ func main() {
 	r := gin.New()
 
 	r.GET("/", func(c *gin.Context) {
-		user := UserModel.New(
+		user := UserModel.New().Mutate(
 			UserModel.WithID(1),
 			UserModel.WithName("静静"),
 		)

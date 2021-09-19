@@ -12,3 +12,9 @@ func New(attrs ...Attr) *User {
 	Attrs(attrs).Apply(user)
 	return user
 }
+
+// Mutate 设置属性
+func (u *User) Mutate(attrs ...Attr) *User {
+	Attrs(attrs).Apply(u)
+	return u
+}
