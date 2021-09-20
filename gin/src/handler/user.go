@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"think/gin/src/model/UserModel"
 	"think/gin/src/result"
 
@@ -11,13 +10,10 @@ import (
 func UserList(c *gin.Context) {
 	user := UserModel.New()
 	result.Result(c.ShouldBind(user)).Unwrap()
-	OK(c)(0, "", result.Result(getInfo(user.ID)).Unwrap())
-}
 
-func getInfo(id int) (gin.H, error) {
-	if id > 0 {
-		return gin.H{"message": "test"}, nil
+	if user.ID > 0 {
+		R(c)(0, "", "list")(OK)
 	} else {
-		return nil, fmt.Errorf("test error")
+		R(c)(10001, "用户错误", nil)(Error)
 	}
 }
