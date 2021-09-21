@@ -8,7 +8,7 @@ type (
 )
 
 // WithID 设置🆔
-func WithID(id int) Attr {
+func WithID(id uint) Attr {
 	return func(u *User) {
 		u.ID = id
 	}

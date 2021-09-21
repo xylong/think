@@ -1,16 +1,16 @@
 package UserModel
 
 import (
-	"time"
+	"gorm.io/gorm"
 )
 
 // User 用户
 type User struct {
-	ID        int       `gorm:"column:id;type:int(11);primaryKey;autoIncrement;" json:"id" form:"id"`
-	Name      string    `gorm:"column:name;type:varchar(20);unique;not null;comment:'名字'" json:"name" form:"name" binding:"min=2"`
-	Password  string    `gorm:"column:password;type:char(32);not null;comment:'密码'" json:"password"`
-	CreatedAt time.Time `gorm:"column:created_at;type:datetime;not null;comment:'创建时间'" json:"created_at"`
-	UpdatedAt time.Time `gorm:"column:updated_at;type:datetime;not null;comment:'修改时间'" json:"updated_at"`
+	ID       uint   `gorm:"primaryKey;autoIncrement;" json:"id" form:"id"`
+	Name     string `gorm:"type:varchar(20);unique;not null;comment:'名字'" json:"name" form:"name" binding:"min=2"`
+	Password string `gorm:"type:char(32);not null;comment:'密码'" json:"password"`
+	Gender   int    `gorm:"type:tinyint(1);not null;default:0;comment:'性别0女 1男'" json:"gender"`
+	gorm.Model
 }
 
 // NewUser 创建用户模型
