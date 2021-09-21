@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"think/gin/src/data/getter"
 	. "think/gin/src/handler"
 	"think/gin/src/model/UserModel"
 	"think/gin/src/result"
@@ -9,11 +10,7 @@ import (
 )
 
 func Index(c *gin.Context) {
-	user := UserModel.New().Mutate(
-		UserModel.WithID(1),
-		UserModel.WithName("静静"),
-	)
-	R(c)(Data(user))(OK)
+	R(c)(Data(getter.UserGetter.GetUserList()))(OK)
 }
 
 func Store(c *gin.Context) {
