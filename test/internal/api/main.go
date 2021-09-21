@@ -16,6 +16,7 @@ func main() {
 	r.Use(middleware.ErrorHandler())
 
 	r.GET("users", controller.Index)
+	r.GET("users/:id", controller.Show)
 	r.POST("users", controller.Store)
 
 	r.Run()

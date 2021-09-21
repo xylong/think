@@ -13,6 +13,15 @@ func Index(c *gin.Context) {
 	R(c)(Data(getter.UserGetter.GetUserList()))(OK)
 }
 
+func Show(c *gin.Context) {
+	id := &struct {
+		ID int `uri:"id" binding:"required,gt=0"`
+	}{}
+
+	result.Result(c.ShouldBind(id)).Unwrap()
+	R(c)(Data(getter.UserGetter.GetUserByID(id.ID).Unwrap()))(OK)
+}
+
 func Store(c *gin.Context) {
 	user := UserModel.New()
 	result.Result(c.ShouldBind(user)).Unwrap()
