@@ -18,7 +18,7 @@ func Show(c *gin.Context) {
 		ID int `uri:"id" binding:"required,gt=0"`
 	}{}
 
-	result.Result(c.ShouldBind(id)).Unwrap()
+	result.Result(c.ShouldBindUri(id)).Unwrap()
 	R(c)(Data(getter.UserGetter.GetUserByID(id.ID).Unwrap()))(OK)
 }
 
