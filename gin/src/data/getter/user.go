@@ -3,7 +3,6 @@ package getter
 import (
 	"fmt"
 	"think/gin/src/data/mapper"
-	"think/gin/src/db"
 	"think/gin/src/model/UserModel"
 	"think/gin/src/result"
 )
@@ -15,12 +14,10 @@ func init() {
 }
 
 type IUserGetter interface {
-	// GetUserList 用户列表
+	// 用户列表
 	GetUserList() []*UserModel.User
-	// GetUserByID 用户详情
+	// 用户详情
 	GetUserByID(id int) *result.Error
-	// CreateUser 创建用户
-	CreateUser(user *UserModel.User) *result.Error
 }
 
 // UserGetterImpl 用户获取器
@@ -46,15 +43,6 @@ func (u *UserGetterImpl) GetUserByID(id int) *result.Error {
 	r := u.mapper.GetUserByID(id).Query().Find(user)
 	if r.Error != nil || r.RowsAffected == 0 {
 		return result.Result(nil, fmt.Errorf("not found user,id=%d", id))
-	}
-	return result.Result(user, nil)
-}
-
-// CreateUser 创建用户
-func (u *UserGetterImpl) CreateUser(user *UserModel.User) *result.Error {
-	r := db.Orm.Create(user)
-	if r.Error != nil {
-		return result.Result(nil, fmt.Errorf("create user failed"))
 	}
 	return result.Result(user, nil)
 }

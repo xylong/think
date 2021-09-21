@@ -13,6 +13,10 @@ type User struct {
 	gorm.Model
 }
 
+func (u *User) TableName() string {
+	return "users"
+}
+
 // NewUser 创建用户模型
 func New(attrs ...Attr) *User {
 	user := &User{}

@@ -2,6 +2,7 @@ package controller
 
 import (
 	"think/gin/src/data/getter"
+	"think/gin/src/data/setter"
 	. "think/gin/src/handler"
 	"think/gin/src/model/UserModel"
 	"think/gin/src/result"
@@ -25,5 +26,5 @@ func Show(c *gin.Context) {
 func Store(c *gin.Context) {
 	user := UserModel.New()
 	result.Result(c.ShouldBindJSON(user)).Unwrap()
-	R(c)(Data(getter.UserGetter.CreateUser(user).Unwrap()))(OK)
+	R(c)(Data(setter.UserSetter.CreateUser(user).Unwrap()))(OK)
 }
