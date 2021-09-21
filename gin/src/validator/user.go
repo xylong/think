@@ -1,23 +1,30 @@
 package validator
 
 import (
-	"log"
-
 	"github.com/go-playground/validator/v10"
 )
 
 func init() {
-	if err := valid.RegisterValidation("UserName", VUserName); err != nil {
-		log.Fatalln("validator UserName error")
+	registerValidation("UserName", UserName("required,min=2,max=10").toFunc())
+}
+
+// UserName 用户名验证规则
+type UserName string
+
+func (un UserName) toFunc() validator.Func {
+	return func(fl validator.FieldLevel) bool {
+		v, ok := fl.Field().Interface().(string)
+		if ok {
+			return un.validate(v)
+		}
+
+		return false
 	}
 }
 
-var VUserName validator.Func = func(fl validator.FieldLevel) bool {
-	name, ok := fl.Field().Interface().(string)
-	length := len([]rune(name))
-
-	if ok && length >= 2 && length <= 10 {
-		return true
+func (un UserName) validate(v string) bool {
+	if err := valid.Var(v, string(un)); err != nil {
+		return false
 	}
-	return false
+	return true
 }
