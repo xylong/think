@@ -1,6 +1,9 @@
 package result
 
-import "fmt"
+import (
+	"fmt"
+	"think/gin/src/validator"
+)
 
 // Error 自定义错误
 type Error struct {
@@ -11,6 +14,7 @@ type Error struct {
 // Unwrap 展开
 func (e *Error) Unwrap() interface{} {
 	if e.err != nil {
+		validator.IsValidateError(e.err)
 		panic(e.err.Error())
 	}
 

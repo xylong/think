@@ -12,6 +12,7 @@ func init() {
 type UserName string
 
 func (un UserName) toFunc() validator.Func {
+	tip["UserName"] = "用户名必须在2-10位之间"
 	return func(fl validator.FieldLevel) bool {
 		v, ok := fl.Field().Interface().(string)
 		if ok {
