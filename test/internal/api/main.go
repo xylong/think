@@ -5,6 +5,8 @@ import (
 	"think/gin/src/db"
 	"think/gin/src/middleware"
 
+	_ "think/gin/src/validator"
+
 	"github.com/gin-gonic/gin"
 )
 
