@@ -5,7 +5,7 @@ import (
 	"think/gin/src/model/UserModel"
 	"time"
 
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -22,8 +22,8 @@ func InitTable() {
 }
 
 func gormDB() *gorm.DB {
-	dsn := "root:123456@(mysql)/gin?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(sqlite.Open(dsn), &gorm.Config{})
+	dsn := "root:123456@tcp(127.0.0.1:3306)/gin?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalln(err)
 	}
