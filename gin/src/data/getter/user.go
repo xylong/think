@@ -2,6 +2,7 @@ package getter
 
 import (
 	"fmt"
+	"think/gin/src/data/mapper"
 	"think/gin/src/db"
 	"think/gin/src/model/UserModel"
 	"think/gin/src/result"
@@ -22,17 +23,26 @@ type IUserGetter interface {
 	CreateUser(user *UserModel.User) *result.Error
 }
 
-type UserGetterImpl struct{}
-
-func NewUserGetterImpl() *UserGetterImpl {
-	return &UserGetterImpl{}
+// UserGetterImpl 用户获取器
+type UserGetterImpl struct {
+	mapper *mapper.UserMapper
 }
 
+func NewUserGetterImpl() *UserGetterImpl {
+	return &UserGetterImpl{
+		mapper: &mapper.UserMapper{},
+	}
+}
+
+// GetUserList 获取用户列表
 func (u *UserGetterImpl) GetUserList() (users []*UserModel.User) {
-	db.Orm.Find(&users)
+	// db.Orm.Find(&users)
+	mapper := u.mapper.GetUserList()
+	db.Orm.Raw(mapper.Sql, mapper.Args...).Find(&users)
 	return
 }
 
+// GetUserByID 根据🆔获取用户
 func (u *UserGetterImpl) GetUserByID(id int) *result.Error {
 	user := UserModel.New()
 	r := db.Orm.Where("id=?", id).Find(user)
@@ -42,6 +52,7 @@ func (u *UserGetterImpl) GetUserByID(id int) *result.Error {
 	return result.Result(user, nil)
 }
 
+// CreateUser 创建用户
 func (u *UserGetterImpl) CreateUser(user *UserModel.User) *result.Error {
 	r := db.Orm.Create(user)
 	if r.Error != nil {
