@@ -36,16 +36,14 @@ func NewUserGetterImpl() *UserGetterImpl {
 
 // GetUserList 获取用户列表
 func (u *UserGetterImpl) GetUserList() (users []*UserModel.User) {
-	// db.Orm.Find(&users)
-	mapper := u.mapper.GetUserList()
-	db.Orm.Raw(mapper.Sql, mapper.Args...).Find(&users)
+	u.mapper.GetUserList().Query().Find(&users)
 	return
 }
 
 // GetUserByID 根据🆔获取用户
 func (u *UserGetterImpl) GetUserByID(id int) *result.Error {
 	user := UserModel.New()
-	r := db.Orm.Where("id=?", id).Find(user)
+	r := u.mapper.GetUserByID(id).Query().Find(user)
 	if r.Error != nil || r.RowsAffected == 0 {
 		return result.Result(nil, fmt.Errorf("not found user,id=%d", id))
 	}
