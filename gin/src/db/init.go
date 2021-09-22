@@ -2,6 +2,7 @@ package db
 
 import (
 	"log"
+	"think/gin/src/model/LogModel"
 	"think/gin/src/model/UserModel"
 	"time"
 
@@ -16,7 +17,10 @@ func InitDB() {
 }
 
 func InitTable() {
-	if err := Orm.AutoMigrate(UserModel.New()); err != nil {
+	if err := Orm.AutoMigrate(
+		UserModel.New(),
+		LogModel.New(),
+	); err != nil {
 		log.Fatalln(err)
 	}
 }
