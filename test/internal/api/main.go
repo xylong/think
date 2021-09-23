@@ -20,6 +20,7 @@ func main() {
 	r.GET("users", controller.Index)
 	r.GET("users/:id", controller.Show)
 	r.POST("users", controller.Store)
+	r.PATCH("users", controller.Update)
 
 	r.Run()
 }

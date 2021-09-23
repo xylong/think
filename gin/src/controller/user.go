@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"think/gin/src/data/getter"
 	"think/gin/src/data/setter"
 	. "think/gin/src/handler"
@@ -27,4 +28,11 @@ func Store(c *gin.Context) {
 	user := UserModel.New()
 	result.Result(c.ShouldBindJSON(user)).Unwrap()
 	R(c)(Data(setter.UserSetter.CreateUser(user).Unwrap()))(OK)
+}
+
+func Update(c *gin.Context) {
+	user := UserModel.New()
+	result.Result(c.ShouldBindJSON(user)).Unwrap()
+	fmt.Println(user)
+	R(c)(Data(setter.UserSetter.UpdateUser(user).Unwrap()))(OK)
 }
