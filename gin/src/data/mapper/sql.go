@@ -51,8 +51,8 @@ func Mapper(sql string, args []interface{}, err error) *SqlMapper {
 
 type SqlMappers []*SqlMapper
 
-// Exec 执行事务
-// f 事务内容
+// ?Exec 执行事务
+// * f 事务内容
 func (sm SqlMappers) Exec(f func() error) error {
 	return db.Orm.Transaction(func(tx *gorm.DB) error {
 		// 将要执行事务的sql的db设置成同一个

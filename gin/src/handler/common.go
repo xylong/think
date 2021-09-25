@@ -80,16 +80,16 @@ type (
 // R 返回结果，装饰器模式函数
 // 传入响应格式函数，根据不同格式返回响应结果数据
 func R(c *gin.Context) Result {
-	// 装饰Result，返回Output
+	//? 装饰Result，返回Output
 	return func(attrs ...Attr) func(output Output) {
-		// 从池中取result实例，用完放回
+		//! 从池中取result实例，用完放回
 		result := ResultPool.Get().(*JSONResult)
 		defer ResultPool.Put(result)
 
 		// 设置属性
 		Attrs(attrs).Apply(result)
 
-		// 解偶响应，根据传入的响应函数进行调用
+		//* 解偶响应，根据传入的响应函数进行调用
 		return func(output Output) {
 			// 调用传入的响应函数，例：OK(c, result)
 			output(c, result)

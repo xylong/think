@@ -16,9 +16,9 @@ func init() {
 
 type IUserSetter interface {
 	// 创建用户
-	CreateUser(*UserModel.User) *result.Error
+	CreateUser(*UserModel.User) *result.ErrorResult
 	// 修改用户
-	UpdateUser(*UserModel.User) *result.Error
+	UpdateUser(*UserModel.User) *result.ErrorResult
 }
 
 type UserSetterImpl struct {
@@ -34,13 +34,13 @@ func NewUserSetterImpl() *UserSetterImpl {
 }
 
 // CreateUser 创建用户
-func (u *UserSetterImpl) CreateUser(user *UserModel.User) *result.Error {
+func (u *UserSetterImpl) CreateUser(user *UserModel.User) *result.ErrorResult {
 	r := u.userMapper.CreateUser(user).Exec()
 	return result.Result(r.RowsAffected, r.Error)
 }
 
 // UpdateUser 更新用户
-func (u *UserSetterImpl) UpdateUser(user *UserModel.User) *result.Error {
+func (u *UserSetterImpl) UpdateUser(user *UserModel.User) *result.ErrorResult {
 	// 更新用户
 	update := u.userMapper.UpdateUser(user)
 	// 记录日志

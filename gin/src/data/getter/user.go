@@ -17,7 +17,7 @@ type IUserGetter interface {
 	// 用户列表
 	GetUserList() []*UserModel.User
 	// 用户详情
-	GetUserByID(id int) *result.Error
+	GetUserByID(id int) *result.ErrorResult
 }
 
 // UserGetterImpl 用户获取器
@@ -38,7 +38,7 @@ func (u *UserGetterImpl) GetUserList() (users []*UserModel.User) {
 }
 
 // GetUserByID 根据🆔获取用户
-func (u *UserGetterImpl) GetUserByID(id int) *result.Error {
+func (u *UserGetterImpl) GetUserByID(id int) *result.ErrorResult {
 	user := UserModel.New()
 	r := u.mapper.GetUserByID(id).Query().Find(user)
 	if r.Error != nil || r.RowsAffected == 0 {
