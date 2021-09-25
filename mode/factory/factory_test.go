@@ -1,8 +1,7 @@
-package mode
+package factory
 
 import (
 	"testing"
-	. "think/mode/factory"
 	"think/mode/model/bird"
 	"think/mode/model/fish"
 
