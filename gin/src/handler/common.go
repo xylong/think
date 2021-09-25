@@ -111,3 +111,25 @@ func Error(c *gin.Context, any interface{}) {
 func OK2String(c *gin.Context, any interface{}) {
 	c.String(http.StatusOK, fmt.Sprintf("%v", any))
 }
+
+// Api api函数
+// * 返回code，string，data
+type Api func(*gin.Context) (int, string, interface{})
+
+// Handle 输出统一json格式
+// 装饰器模式封装返回格式为(code,message,data)的api函数
+func Handle() func(api Api) gin.HandlerFunc {
+	// ? 装饰api函数
+	return func(api Api) gin.HandlerFunc {
+		// ? 装饰HandlerFunc
+		return func(c *gin.Context) {
+			// ! 调用HandlerFunc，返回json
+			code, message, data := api(c)
+			c.JSON(http.StatusOK, gin.H{
+				"code":    code,
+				"message": message,
+				"data":    data,
+			})
+		}
+	}
+}

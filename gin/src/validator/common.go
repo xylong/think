@@ -40,6 +40,7 @@ func IsValidateError(errors error) {
 	if errs, ok := errors.(validator.ValidationErrors); ok {
 		for _, err := range errs {
 			// 判断是否有自定义错误信息，有就抛出
+			// todo 处理自带验证报错信息
 			if msg, ok := tip[err.Tag()]; ok {
 				panic(msg)
 			}
