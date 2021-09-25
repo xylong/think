@@ -9,7 +9,7 @@
 ├── gin         框架案例
 ├── goroutine   并发
 ├── leetcode    力扣
-├── main.go
+├── mode        设计模式
 ├── public      素材
 ├── question    问题
 ├── storage     存储
