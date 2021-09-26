@@ -12,7 +12,7 @@ func NewDefer() *Defer {
 
 // DefinedParam 定义了参数
 // 如果defer执行有参数，则定义时就已经确定，不会再改变
-// 输出1
+// ! 输出1
 func (d *Defer) DefinedParam() {
 	a := 1
 	defer fmt.Println(a)
@@ -20,7 +20,7 @@ func (d *Defer) DefinedParam() {
 }
 
 // UndefinedParam 未定义参数
-// 输出2
+// ! 输出2
 func (d *Defer) UndefinedParam() {
 	a := 1
 	defer func() {

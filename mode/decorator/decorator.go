@@ -6,7 +6,6 @@ import (
 )
 
 func demo(i int) int {
-	time.Sleep(time.Second * 2)
 	return i * 10
 }
 
@@ -21,7 +20,11 @@ func DemoConsume(f demoFunc) demoFunc {
 		start := time.Now()
 		result := f(i)
 		end := time.Now()
-		fmt.Println(end.Sub(start))
+
+		defer func() {
+			fmt.Println(end.Sub(start))
+		}()
+
 		return result
 	}
 }

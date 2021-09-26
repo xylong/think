@@ -2,7 +2,7 @@ package bird
 
 import "think/mode/model"
 
-// 鸟
+// Bird 鸟
 type Bird struct {
 	ID    int    `json:"id"`
 	Name  string `json:"name"`

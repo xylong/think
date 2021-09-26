@@ -2,7 +2,7 @@ package fish
 
 import "think/mode/model"
 
-// 鱼
+// Fish 鱼
 type Fish struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
