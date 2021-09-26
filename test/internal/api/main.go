@@ -26,5 +26,8 @@ func main() {
 	//! 统一封装json返回例子
 	r.GET("example", handler.Handle()(api.Example))
 
+	r.POST("upload", handler.Handle()(api.Upload))
+	r.GET("file")
+
 	r.Run()
 }
