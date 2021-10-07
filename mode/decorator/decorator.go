@@ -5,20 +5,28 @@ import (
 	"time"
 )
 
-func demo(i int) int {
-	return i * 10
+// Sum 累加求和，从a加到b
+func Sum(a, b int) int {
+	result := 0
+
+	for i := a; i <= b; i++ {
+		result = result + i
+	}
+
+	return result
 }
 
-// 被装饰函数签名
-type demoFunc func(int) int
+// MathFunc 数学计算
+type MathFunc func(a, b int) int
 
-// DemoConsume demo耗时
-// ? f 函数签名
-// * 装饰demo函数，记录demo耗时
-func DemoConsume(f demoFunc) demoFunc {
-	return func(i int) int {
+type GoMathFunc func(int) int
+
+// Consume 计算耗时
+// 装饰器装饰数学计算函数
+func Consume(mf MathFunc) MathFunc {
+	return func(i1, i2 int) int {
 		start := time.Now()
-		result := f(i)
+		result := mf(i1, i2)
 		end := time.Now()
 
 		defer func() {
