@@ -6,6 +6,7 @@
     - 限制协程数量基本方式
     - 分批、周期性执行
 - produce_consume(生产消费模式)
+- go_func(封装协程和channel，即简单任务模式)
 
 
 ```mermaid
