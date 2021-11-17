@@ -1,6 +1,7 @@
 package goroutine
 
 import (
+	"fmt"
 	"net/http"
 	"testing"
 	"time"
@@ -51,4 +52,43 @@ func getUserBalance() <-chan interface{} {
 	}()
 
 	return ch
+}
+
+func TestFanOut(t *testing.T) {
+	convey.Convey("扇出模式", t, func() {
+		data := make(chan interface{})
+		FanOut(data, job1(), job2())
+
+		for i := 0; i < 10; i++ {
+			data <- i
+		}
+
+		time.Sleep(time.Second * 5)
+	})
+}
+
+func job1() chan interface{} {
+	c := make(chan interface{})
+
+	go func() {
+		for v := range c {
+			time.Sleep(time.Millisecond * 500)
+			fmt.Println(v)
+		}
+	}()
+
+	return c
+}
+
+func job2() chan interface{} {
+	c := make(chan interface{})
+
+	go func() {
+		for v := range c {
+			time.Sleep(time.Millisecond * 600)
+			fmt.Println(v)
+		}
+	}()
+
+	return c
 }

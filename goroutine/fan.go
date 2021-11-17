@@ -26,3 +26,20 @@ func FanIn(cs ...<-chan interface{}) <-chan interface{} {
 
 	return result
 }
+
+// FanOut 扇出
+func FanOut(data <-chan interface{}, worker ...chan interface{}) {
+	go func() {
+		defer func() {
+			for _, c := range worker {
+				close(c)
+			}
+		}()
+
+		for v := range data {
+			for _, c := range worker {
+				c<-v
+			}
+		}
+	}()
+}
