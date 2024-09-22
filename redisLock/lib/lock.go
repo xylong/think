@@ -1,20 +1,31 @@
 package lib
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 type Locker struct {
-	Key string
+	key    string
+	expire time.Duration
 }
 
 func NewLocker(key string) *Locker {
-	return &Locker{Key: key}
+	return &Locker{key: key}
+}
+
+func NewLockerWithTTL(key string, expire time.Duration) *Locker {
+	return &Locker{
+		key:    key,
+		expire: expire,
+	}
 }
 
 // Lock 上锁
 func (l *Locker) Lock() *Locker {
-	cmd := redisClient.SetNX(l.Key, 1, 0)
+	cmd := redisClient.SetNX(l.key, 1, l.expire)
 	if ok, err := cmd.Result(); err != nil || !ok {
-		panic(fmt.Sprintf("lock error with key [%s]", l.Key))
+		panic(fmt.Sprintf("lock error with key [%s]", l.key))
 	}
 
 	return l
@@ -22,7 +33,7 @@ func (l *Locker) Lock() *Locker {
 
 // Unlock 解锁
 func (l *Locker) Unlock() *Locker {
-	redisClient.Del(l.Key)
+	redisClient.Del(l.key)
 
 	return l
 }

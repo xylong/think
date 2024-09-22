@@ -23,7 +23,7 @@ func main() {
 	})
 
 	r.GET("/", func(ctx *gin.Context) {
-		locker := lib.NewLocker("lock1").Lock()
+		locker := lib.NewLockerWithTTL("lock1", time.Second*10).Lock()
 		defer locker.Unlock()
 
 		if ctx.Query("t") != "" {
