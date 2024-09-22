@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"think/redisLock/lib"
+	"time"
 )
 
 func main() {
@@ -22,7 +23,13 @@ func main() {
 	})
 
 	r.GET("/", func(ctx *gin.Context) {
-		lib.Lock("lock1")
+		locker := lib.NewLocker("lock1").Lock()
+		defer locker.Unlock()
+
+		if ctx.Query("t") != "" {
+			time.Sleep(time.Second * 10)
+		}
+
 		ctx.JSONP(http.StatusOK, gin.H{"msg": "ok"})
 	})
 
