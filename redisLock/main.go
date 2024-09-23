@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"think/redisLock/lib"
@@ -18,7 +17,6 @@ func main() {
 	r.Use(func(ctx *gin.Context) {
 		defer func() {
 			if err := recover(); err != nil {
-				fmt.Println(err)
 				ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"msg": err})
 			}
 		}()
