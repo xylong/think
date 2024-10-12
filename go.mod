@@ -25,6 +25,8 @@ require (
 require github.com/go-redis/redis v6.15.9+incompatible
 
 require (
+	github.com/cespare/xxhash/v2 v2.2.0 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
@@ -40,6 +42,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/gomega v1.34.2 // indirect
+	github.com/redis/go-redis/v9 v9.6.1 // indirect
 	github.com/smartystreets/assertions v1.2.0 // indirect
 	github.com/ugorji/go/codec v1.2.6 // indirect
 )
